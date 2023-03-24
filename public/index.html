@@ -7,12 +7,12 @@
   </head>
   <body>
     <div id="app">
-      <form>
-        <input type="text" placeholder="Todo" />
+      <form @submit.prevent="createTodo()">
+        <input type="text" placeholder="Todo" v-model="form.text"/>
 
         <label class="checkbox-input">
-          Não concluída
-          <input type="checkbox" checked="true" />
+          {{ form.done ? "Concluída" : "Não concluída" }}
+          <input type="checkbox" :checked="form.done" v-model="form.done"/>
           <span class="checkmark"></span>
         </label>
 
@@ -23,13 +23,13 @@
         <span class="todos-title">Todos</span>
 
           
-          <li class="todo">
-            <label class="checkbox-input">
-              <input type="checkbox" checked="true" />
+          <li :class="['todo', {done: todo.done}]" v-for="todo in todos">
+            <label class="checkbox-input" @click="toggleTodoStatus(todo)">
+              <input type="checkbox" :checked="todo.done" />
               <span class="checkmark"></span>
             </label>
-            <span class="todo-text">Beber água</span>
-            <a class="todo-delete"></a>
+            <span class="todo-text">{{todo.text}}</span>
+            <a class="todo-delete" @click="destroyTodo(todo.id)"></a>
           </li>
       </ul>
     </div>
